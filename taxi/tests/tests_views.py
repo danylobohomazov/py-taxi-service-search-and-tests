@@ -9,6 +9,7 @@ MANUFACTURER_LIST_URL = reverse("taxi:manufacturer-list")
 CAR_LIST_URL = reverse("taxi:car-list")
 DRIVER_LIST_URL = reverse("taxi:driver-list")
 
+
 class PublicManufacturerViewTest(TestCase):
     def test_manufacturer_login_required(self):
         res = self.client.get(MANUFACTURER_LIST_URL)
@@ -161,5 +162,7 @@ class PrivateDriverViewTest(TestCase):
         )
         self.assertEqual(
             list(res.context["object_list"]),
-            list(get_user_model().objects.filter(username__icontains=test_filter))
+            (list(get_user_model()
+                  .objects
+                  .filter(username__icontains=test_filter)))
         )
