@@ -46,7 +46,7 @@ class ManufacturerListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ManufacturerListView, self).get_context_data(**kwargs)
-        context["search_form"] = ManufacturerSearchForm()
+        context["search_form"] = ManufacturerSearchForm(self.request.GET)
         return context
 
     def get_queryset(self):
@@ -77,15 +77,14 @@ class ManufacturerDeleteView(LoginRequiredMixin, generic.DeleteView):
 class CarListView(LoginRequiredMixin, generic.ListView):
     model = Car
     paginate_by = 5
-    queryset = Car.objects.select_related("manufacturer")
 
     def get_context_data(self, **kwargs):
         context = super(CarListView, self).get_context_data(**kwargs)
-        context["search_form"] = CarSearchForm()
+        context["search_form"] = CarSearchForm(self.request.GET)
         return context
 
     def get_queryset(self):
-        queryset = Car.objects.all()
+        queryset = Car.objects.select_related("manufacturer")
         model = self.request.GET.get("model")
         if model:
             return queryset.filter(model__icontains=model)
@@ -119,7 +118,7 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(DriverListView, self).get_context_data(**kwargs)
-        context["search_form"] = DriverSearchForm()
+        context["search_form"] = DriverSearchForm(self.request.GET)
         return context
 
     def get_queryset(self):
@@ -151,7 +150,7 @@ class DriverLicenseUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class DriverDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = get_user_model()
-    success_url = reverse_lazy("")
+    success_url = reverse_lazy("taxi:driver-list")
 
 
 @login_required

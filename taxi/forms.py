@@ -40,15 +40,15 @@ class DriverLicenseUpdateForm(forms.ModelForm):
 
 
 class ManufacturerSearchForm(forms.Form):
-    name = forms.CharField(max_length=255)
+    name = forms.CharField(max_length=255, required=False)
 
 
 class CarSearchForm(forms.Form):
-    model = forms.CharField(max_length=255)
+    model = forms.CharField(max_length=255, required=False)
 
 
 class DriverSearchForm(forms.Form):
-    username = forms.CharField(max_length=255)
+    username = forms.CharField(max_length=255, required=False)
 
 
 def validate_license_number(
